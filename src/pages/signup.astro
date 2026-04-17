@@ -1,0 +1,22 @@
+---
+import { SignUp } from '@clerk/astro/components';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`Sign up · ${SITE_TITLE}`} description="Create a KSC Tower account." />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Create your account</h1>
+			<SignUp />
+		</main>
+		<Footer />
+	</body>
+</html>
