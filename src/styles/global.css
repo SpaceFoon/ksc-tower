@@ -204,7 +204,7 @@ a:hover {
 	display: grid;
 	align-items: end;
 	overflow: hidden;
-	padding: 3.5rem 0 6.5rem;
+	padding: 3.5rem 0 11rem;
 }
 
 .hero__visual {
@@ -217,8 +217,8 @@ a:hover {
 
 .hero__copy {
 	max-width: 36rem;
-	margin-left: -0.75rem;
-	margin-bottom: 1.25rem;
+	margin-left: -1.25rem;
+	margin-bottom: 2.5rem;
 }
 
 .hero__brand {
@@ -757,7 +757,12 @@ a:hover {
 	.hero {
 		min-height: auto;
 		padding-top: 2.5rem;
-		padding-bottom: 3rem;
+		padding-bottom: 5.5rem;
+	}
+
+	.hero__copy {
+		margin-left: 0;
+		margin-bottom: 1rem;
 	}
 }
 
