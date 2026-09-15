@@ -1,50 +1,109 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import PageLayout from '../layouts/PageLayout.astro';
+import ScopeVisual from '../components/ScopeVisual.astro';
+import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
+<PageLayout description={SITE_DESCRIPTION}>
+	<section class="hero">
+		<ScopeVisual />
+		<div class="shell hero__copy">
+			<p class="hero__brand">{BRAND}</p>
+			<h1 class="hero__headline">Real ATC for Kerbal Space Program</h1>
+			<p class="hero__lede">
+				Pilots fly in KSP. Controllers work the tower in any browser. Live voice, map
+				telemetry, ACARS, and hull-cam — an ATC layer on top of vanilla flight.
 			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
+			<div class="cta-row">
+				<a class="btn btn-primary" href="/get-started">Get started</a>
+				<a class="btn btn-secondary" href="/how-it-works">How it works</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<p class="section__eyebrow">The loop</p>
+			<h2 class="section__title">Three seats. One tower network.</h2>
+			<p class="section__lede">
+				{PRODUCT} connects a KSP client, a browser tower desk, and a hosted backend.
+				There is no shared physics and no shared save — just coordinated ops.
 			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
+			<div class="flow">
+				<div class="flow__item">
+					<h3>Pilot</h3>
+					<p>
+						Install the mod, launch the voice bridge with KSP, tune the radio, and
+						talk to tower on PTT while your vessel telemetry streams live.
+					</p>
+				</div>
+				<div class="flow__item">
+					<h3>Controller</h3>
+					<p>
+						Open the tower web app, take ownership of a session, watch the map,
+						issue clearances over voice and ACARS, and pull hull-cam when you need eyes.
+					</p>
+				</div>
+				<div class="flow__item">
+					<h3>Operator</h3>
+					<p>
+						Host the API, static tower desk, and LiveKit project. Publish a session
+						URL so your community can drop in and fly.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section band">
+		<div class="shell">
+			<p class="section__eyebrow">On frequency</p>
+			<h2 class="section__title">What ships with the network</h2>
+			<p class="section__lede">
+				Built for multiplayer role-play ATC — the tools controllers and pilots actually need
+				between pad and orbit.
+			</p>
+			<ul class="feature-list">
+				<li>
+					<strong>Duplex voice</strong>
+					<span>LiveKit-backed radio between the KSP bridge and the browser tower desk.</span>
+				</li>
+				<li>
+					<strong>Live telemetry map</strong>
+					<span>Position, altitude, heading, and more drawn for the controller in real time.</span>
+				</li>
+				<li>
+					<strong>ACARS &amp; chat</strong>
+					<span>Structured text beside voice — in-game panel, Chat Desk, and DMs.</span>
+				</li>
+				<li>
+					<strong>Hull-cam feed</strong>
+					<span>Optional JRTI / HullCam snapshots forwarded to the tower desk (~1 Hz).</span>
+				</li>
+				<li>
+					<strong>Session control</strong>
+					<span>Queues, role gates, scoring, countdown HUDs, runway awareness, moderation.</span>
+				</li>
+				<li>
+					<strong>Graceful integrations</strong>
+					<span>RPM/MAS PTT, kOS ACARS bridge, Kerbalism radiation — light up when present.</span>
+				</li>
 			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="shell">
+			<p class="section__eyebrow">Next</p>
+			<h2 class="section__title">Ready to join the pattern?</h2>
+			<p class="section__lede">
+				Player packs and a public hosted tower are still being staged for release. Until then,
+				you can learn the setup path and follow the open mod repository.
 			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+			<div class="cta-row">
+				<a class="btn btn-primary" href="/get-started">Setup path</a>
+				<a class="btn btn-secondary" href="/about">About the project</a>
+			</div>
+		</div>
+	</section>
+</PageLayout>

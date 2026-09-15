@@ -1,0 +1,79 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { PRODUCT } from '../consts';
+---
+
+<PageLayout
+	title="How it works"
+	description="How KSC Tower Network connects KSP pilots, browser controllers, and a hosted tower backend."
+>
+	<section class="page-hero">
+		<div class="shell">
+			<h1>How it works</h1>
+			<p>
+				{PRODUCT} is an ATC layer for Kerbal Space Program. Pilots stay in their own game
+				instance. Controllers work from a web desk. A backend + LiveKit room keeps voice,
+				telemetry, and text in sync.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" style="padding-top: 0;">
+		<div class="shell prose">
+			<h2>What it is not</h2>
+			<p>
+				It is not a shared-universe multiplayer physics host. Each pilot flies a normal KSP
+				save. Tower sees what the plugin publishes — vessel state, radio, optional camera
+				frames — and talks back over voice and ACARS.
+			</p>
+
+			<h2>Pilot path</h2>
+			<ol>
+				<li>Install Module Manager and the KSC Tower Network GameData pack.</li>
+				<li>Launch KSP — the bundled voice bridge starts with the game.</li>
+				<li>Point the plugin at your community’s tower API (baked into release builds).</li>
+				<li>Open the in-game tower / radio UI, join the session, and use PTT.</li>
+			</ol>
+			<p>
+				Optional mods deepen immersion without being hard requirements: ClickThroughBlocker
+				for UI clicks, RasterPropMonitor / MAS for IVA PTT, kOS for ACARS scripts,
+				HullCam + JRTI for camera snapshots, Kerbalism for radiation on the strip.
+			</p>
+
+			<h2>Controller path</h2>
+			<ol>
+				<li>Open the hosted tower web app in any modern browser.</li>
+				<li>Sign in and join the published session (for example <code>tower-public</code>).</li>
+				<li>Take the controller seat, watch the map, and work traffic on voice + text.</li>
+				<li>Use role tools for queues, ownership, moderation, and countdown HUDs.</li>
+			</ol>
+
+			<h2>Operator path</h2>
+			<p>
+				Someone has to run the network. Production needs three public pieces:
+			</p>
+			<ul>
+				<li><strong>Backend API</strong> — Node service with MariaDB/Redis and auth.</li>
+				<li><strong>Web SPA</strong> — the tower desk (static host or same origin as the API).</li>
+				<li><strong>LiveKit</strong> — realtime voice rooms (LiveKit Cloud works fine).</li>
+			</ul>
+			<p>
+				Release packaging bakes those hostnames into the player ZIP so pilots do not hand-edit
+				URLs. Full operator checklist lives with the mod docs (<code>HOSTING.md</code> /
+				<code>DEPLOYMENT.md</code>).
+			</p>
+
+			<h2>Roles</h2>
+			<p>
+				Access climbs <code>guest → pilot → controller → mod → supermod → owner</code>.
+				Guests can watch; pilots publish voice and telemetry; controllers own the session;
+				mods handle enforcement. Owner is pinned and cannot be banned out.
+			</p>
+
+			<div class="cta-row" style="margin-top: 2.5rem;">
+				<a class="btn btn-primary" href="/get-started">Get started</a>
+				<a class="btn btn-secondary" href="/">Back home</a>
+			</div>
+		</div>
+	</section>
+</PageLayout>

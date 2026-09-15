@@ -1,0 +1,68 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
+---
+
+<PageLayout
+	title="Get started"
+	description="How to prepare for KSC Tower Network as a pilot, controller, or tower operator."
+>
+	<section class="page-hero">
+		<div class="shell">
+			<h1>Get started</h1>
+			<p>
+				A public player ZIP and always-on community tower are still being prepared. Here is
+				the honest setup path so you know what to expect when {PRODUCT} goes live.
+			</p>
+		</div>
+	</section>
+
+	<section class="section" style="padding-top: 0;">
+		<div class="shell">
+			<div class="prose">
+				<h2>Requirements</h2>
+			</div>
+			<ul class="checklist" style="max-width: 42rem; margin-bottom: 2.5rem;">
+				<li>Kerbal Space Program {KSP_VERSION} (Windows x64 for the bundled voice bridge).</li>
+				<li>Module Manager (required dependency).</li>
+				<li>A tower API URL from your community operator — or host your own.</li>
+				<li>Recommended: ClickThroughBlocker so tower panels do not click through to the craft.</li>
+			</ul>
+
+			<div class="prose">
+				<h2>If you want to fly</h2>
+				<p>
+					When the release pack ships, you drop <code>GameData/KSCTowerNetwork/</code> into
+					your KSP install, launch the game, and connect with the baked-in tower host.
+					Until that ZIP is published, follow the open repository and wait for a tagged
+					release.
+				</p>
+				<div class="cta-row" style="margin: 1.25rem 0 2.5rem;">
+					<a class="btn btn-primary" href={GITHUB_MOD} rel="noopener noreferrer" target="_blank"
+						>View mod on GitHub</a
+					>
+					<a class="btn btn-secondary" href="/how-it-works">Read the loop</a>
+				</div>
+
+				<h2>If you want to control</h2>
+				<p>
+					Controllers only need a browser and credentials for a hosted tower desk. No KSP
+					install required. When a public session is announced, you will open the tower URL,
+					sign in, and take the seat.
+				</p>
+
+				<h2>If you want to host</h2>
+				<p>
+					Operators stand up the API, web desk, and LiveKit project, then run the packaging
+					script so player builds point at those hosts. The mod repo documents env vars,
+					CORS, MariaDB, Redis, and the release ZIP flow.
+				</p>
+				<p>
+					Status right now: the product stack exists and is documented for production; this
+					site is the public front door. The playable hosted tower endpoint is still being
+					brought online.
+				</p>
+			</div>
+		</div>
+	</section>
+</PageLayout>

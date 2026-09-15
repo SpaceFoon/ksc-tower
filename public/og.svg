@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#6AA9C9"/>
+  <rect y="360" width="1200" height="270" fill="#D7E6EF"/>
+  <circle cx="860" cy="280" r="180" stroke="#14202B" stroke-opacity="0.25" stroke-width="2" fill="none"/>
+  <circle cx="860" cy="280" r="110" stroke="#14202B" stroke-opacity="0.25" stroke-width="2" fill="none"/>
+  <circle cx="860" cy="280" r="40" stroke="#14202B" stroke-opacity="0.25" stroke-width="2" fill="none"/>
+  <path d="M860 100 V460 M680 280 H1040" stroke="#14202B" stroke-opacity="0.2" stroke-width="2"/>
+  <path d="M860 280 L1010 190" stroke="#E86A17" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="980" cy="210" r="10" fill="#E86A17"/>
+  <text x="72" y="250" fill="#14202B" font-family="Arial Black, Arial, sans-serif" font-size="72" letter-spacing="4">KSC TOWER</text>
+  <text x="72" y="320" fill="#2C3B4A" font-family="Arial, sans-serif" font-size="36">ATC for Kerbal Space Program</text>
+</svg>

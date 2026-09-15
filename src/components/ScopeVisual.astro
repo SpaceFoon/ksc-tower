@@ -1,0 +1,96 @@
+---
+/**
+ * Full-bleed stylized tower scope — decorative hero plane, not a card.
+ */
+---
+
+<div class="hero__visual" aria-hidden="true">
+	<svg class="scope" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+		<defs>
+			<radialGradient id="scopeGlow" cx="62%" cy="48%" r="45%">
+				<stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"></stop>
+				<stop offset="55%" stop-color="#3a9bb5" stop-opacity="0.18"></stop>
+				<stop offset="100%" stop-color="#6aa9c9" stop-opacity="0"></stop>
+			</radialGradient>
+			<linearGradient id="runway" x1="0" y1="0" x2="1" y2="0">
+				<stop offset="0%" stop-color="#14202b" stop-opacity="0"></stop>
+				<stop offset="35%" stop-color="#14202b" stop-opacity="0.45"></stop>
+				<stop offset="65%" stop-color="#14202b" stop-opacity="0.45"></stop>
+				<stop offset="100%" stop-color="#14202b" stop-opacity="0"></stop>
+			</linearGradient>
+		</defs>
+
+		<rect width="1200" height="800" fill="url(#scopeGlow)"></rect>
+
+		<!-- distant hills -->
+		<path
+			d="M0 520 C180 470 260 560 420 510 C560 470 640 540 780 500 C940 450 1040 530 1200 490 L1200 800 L0 800 Z"
+			fill="#8fb09a"
+			opacity="0.35"></path>
+		<path
+			d="M0 580 C220 540 320 610 480 570 C650 525 760 600 920 560 C1040 530 1120 580 1200 560 L1200 800 L0 800 Z"
+			fill="#6f947c"
+			opacity="0.28"></path>
+
+		<!-- scope rings -->
+		<g transform="translate(740 360)" fill="none" stroke="#14202b" stroke-opacity="0.22">
+			<circle r="70" stroke-width="1.5"></circle>
+			<circle r="140" stroke-width="1.5"></circle>
+			<circle r="210" stroke-width="1.5"></circle>
+			<circle r="280" stroke-width="1.5"></circle>
+			<path d="M0 -300 V300 M-300 0 H300" stroke-width="1"></path>
+			<path d="M-212 -212 L212 212 M212 -212 L-212 212" stroke-width="1" opacity="0.7"></path>
+			<g class="scope__beam" style="transform-origin: 0px 0px;">
+				<path d="M0 0 L280 -40 L260 20 Z" fill="#e86a17" fill-opacity="0.18" stroke="none"></path>
+				<path d="M0 0 L280 -40" stroke="#e86a17" stroke-width="2" stroke-opacity="0.7"></path>
+			</g>
+			<circle class="scope__blip" cx="160" cy="-90" r="5" fill="#e86a17"></circle>
+			<circle class="scope__blip scope__blip--late" cx="-120" cy="70" r="4" fill="#1f7f8f"></circle>
+			<circle class="scope__blip" cx="40" cy="150" r="3.5" fill="#14202b" opacity="0.55"></circle>
+		</g>
+
+		<!-- runway strip -->
+		<g transform="translate(80 620)">
+			<rect width="520" height="34" fill="url(#runway)"></rect>
+			<g fill="#e8eef2" opacity="0.85">
+				<rect x="40" y="14" width="36" height="6"></rect>
+				<rect x="100" y="14" width="36" height="6"></rect>
+				<rect x="160" y="14" width="36" height="6"></rect>
+				<rect x="220" y="14" width="36" height="6"></rect>
+				<rect x="280" y="14" width="36" height="6"></rect>
+				<rect x="340" y="14" width="36" height="6"></rect>
+				<rect x="400" y="14" width="36" height="6"></rect>
+			</g>
+		</g>
+
+		<!-- tower silhouette -->
+		<g transform="translate(180 250)" fill="#14202b" opacity="0.55">
+			<rect x="34" y="80" width="28" height="210"></rect>
+			<rect x="18" y="60" width="60" height="28"></rect>
+			<rect x="8" y="40" width="80" height="24"></rect>
+			<polygon points="48,0 62,40 34,40"></polygon>
+			<rect x="44" y="290" width="8" height="70"></rect>
+			<rect x="20" y="355" width="56" height="12"></rect>
+		</g>
+	</svg>
+</div>
+
+<style>
+	.scope {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+
+	.scope__beam {
+		animation: sweep 9s linear infinite;
+	}
+
+	.scope__blip {
+		animation: pulse-blip 2.4s ease-in-out infinite;
+	}
+
+	.scope__blip--late {
+		animation-delay: 1.1s;
+	}
+</style>
