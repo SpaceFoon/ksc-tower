@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ShotFrame from '../components/ShotFrame.astro';
 import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 ---
 
@@ -30,19 +31,81 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 			</ul>
 
 			<div class="prose">
+				<h2>Mods</h2>
+			</div>
+			<table class="mod-table">
+				<thead>
+					<tr>
+						<th>Mod</th>
+						<th>Role</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Module Manager</td>
+						<td>Required — applies radio / IVA patches.</td>
+					</tr>
+					<tr>
+						<td>ClickThroughBlocker</td>
+						<td>Recommended — keeps UI clicks off the craft.</td>
+					</tr>
+					<tr>
+						<td>HullCam + JRTI</td>
+						<td>Optional — camera snapshots and Stream as Tower.</td>
+					</tr>
+					<tr>
+						<td>kOS</td>
+						<td>Optional — ACARS mailbox + terminal mirror on the wall.</td>
+					</tr>
+					<tr>
+						<td>RPM / MAS</td>
+						<td>Optional — IVA PTT button.</td>
+					</tr>
+					<tr>
+						<td>Kerbalism</td>
+						<td>Optional — radiation on the strip.</td>
+					</tr>
+					<tr>
+						<td>Chatterer</td>
+						<td>Not recommended — overlaps live human ATC.</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="prose">
 				<h2>If you want to fly</h2>
+				<ol>
+					<li>Drop <code>GameData/KSCTowerNetwork/</code> into your KSP install and launch.</li>
+					<li>Sign in on the tower web app and pair the plugin with the short exchange code.</li>
+					<li>Tune the in-game radio (TWR 122.0 / GND 121.7 / EMRG 121.5) and hold PTT (<code>R</code>).</li>
+					<li>
+						Keep the beacon on for telemetry. Other pilots appear as ghosts in your world —
+						not as shared vessels.
+					</li>
+				</ol>
 				<p>
-					When the release pack ships, drop <code>GameData/KSCTowerNetwork/</code> into
-					your KSP install and launch. Pair the plugin with a short code from the web app,
-					tune the in-game radio (TWR 122.0 / GND 121.7 / EMRG 121.5), and talk on PTT
-					(default <code>R</code>). Telemetry streams while the beacon is on; other pilots
-					appear as ghosts in your world, not as shared vessels.
-				</p>
-				<p>
-					Until that ZIP is published, follow the open repository and wait for a tagged
+					Until the release ZIP is published, follow the open repository and wait for a tagged
 					release.
 				</p>
-				<div class="cta-row" style="margin: 1.25rem 0 2.5rem;">
+			</div>
+
+			<div class="shot-block" style="margin-bottom: 2.5rem;">
+				<div class="shot-grid">
+					<ShotFrame
+						id="plugin-pair"
+						caption="Pair plugin — web mints a code; paste it in KSP."
+						alt="Plugin pairing exchange code"
+					/>
+					<ShotFrame
+						id="radio-hud"
+						caption="On frequency — PTT, beacon, and ATIS from the radio HUD."
+						alt="In-game radio HUD after pairing"
+					/>
+				</div>
+			</div>
+
+			<div class="prose">
+				<div class="cta-row" style="margin: 0 0 2.5rem;">
 					<a class="btn btn-primary" href={GITHUB_MOD} rel="noopener noreferrer" target="_blank"
 						>View mod on GitHub</a
 					>
@@ -54,7 +117,7 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 					Controllers only need a browser and a signed-in account. No KSP install.
 					Open the lobby, join the controller queue (“take next call”), or assume a vacant
 					seat on an active radio channel. Work map, clearances, voice, ACARS, countdown,
-					and the tower wall from there.
+					staging spots, and the tower wall from there.
 				</p>
 
 				<h2>If you want to spectate</h2>
@@ -63,6 +126,13 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 					listen-only. You get ops audio without PTT, plus the booth side channel for
 					spectator chatter the pilot does not hear. If your account can assume tower,
 					you can take a vacant seat from there.
+				</p>
+
+				<h2>If you just want to peek</h2>
+				<p>
+					Join as guest for lobby text chat only — useful to see if a community is awake.
+					Voice, the plugin, DMs, and spectate all need a real account. Some communities
+					run invite-only or closed signup; the tower landing page will say so.
 				</p>
 
 				<h2>If you want to host</h2>

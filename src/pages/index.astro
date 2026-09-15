@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ScopeVisual from '../components/ScopeVisual.astro';
+import ShotFrame from '../components/ShotFrame.astro';
 import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -12,8 +13,9 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 				<p class="hero__brand">{BRAND}</p>
 				<h1 class="hero__headline">Real ATC for Kerbal Space Program</h1>
 				<p class="hero__lede">
-					Pilots fly in KSP. Controllers work the tower in any browser. Live voice, map
-					telemetry, ACARS, and hull-cam — an ATC layer on top of vanilla flight.
+					Pilots fly in KSP. Controllers and spectators work the tower in any browser.
+					Live voice, ghost traffic, radio channels, and a real desk — ATC on top of
+					vanilla flight.
 				</p>
 				<div class="cta-row">
 					<a class="btn btn-primary" href="/get-started">Get started</a>
@@ -79,8 +81,8 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 					<span>Server-owned TWR / GND / EMRG / ATIS — pilots tune in-game; controllers take the queue.</span>
 				</li>
 				<li>
-					<strong>Duplex voice</strong>
-					<span>LiveKit-backed radio between the KSP bridge and the browser tower desk.</span>
+					<strong>Duplex voice + Kerbalizer</strong>
+					<span>LiveKit radio between KSP and the desk, with optional bandpass “Kerbal voice” DSP.</span>
 				</li>
 				<li>
 					<strong>Ghost traffic</strong>
@@ -91,12 +93,12 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 					<span>Signed-in listen-only desk; booth chatter stays off the pilot’s frequency.</span>
 				</li>
 				<li>
-					<strong>Live telemetry map</strong>
-					<span>Position, altitude, heading, and more drawn for the controller in real time.</span>
+					<strong>ACARS, checklists &amp; identity</strong>
+					<span>Session / lobby / DM text, shared checklists, callsign and squawk on the strip.</span>
 				</li>
 				<li>
-					<strong>Clearances &amp; countdown</strong>
-					<span>Takeoff / landing / taxi RP clearances, synced launch HUD, and scorecard.</span>
+					<strong>Clearances, countdown &amp; scorecard</strong>
+					<span>RP clearances, synced launch HUD, auto scoring, and tower staging spots.</span>
 				</li>
 				<li>
 					<strong>Dragon Radar</strong>
@@ -104,9 +106,29 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 				</li>
 				<li>
 					<strong>Tower wall &amp; hull-cam</strong>
-					<span>Customizable monitor wall plus optional JRTI / HullCam snapshots (~1 Hz).</span>
+					<span>Customizable monitor wall, optional JRTI / HullCam, and Stream-as-Tower feeds.</span>
 				</li>
 			</ul>
+
+			<div class="shot-block">
+				<div class="shot-grid shot-grid--3">
+					<ShotFrame
+						id="radio-hud"
+						caption="In-game radio — tune TWR, GND, EMRG, or ATIS."
+						alt="KSC Tower Network in-game radio HUD"
+					/>
+					<ShotFrame
+						id="tower-desk"
+						caption="Browser tower desk — map, strips, and voice."
+						alt="KSC Tower Network controller desk"
+					/>
+					<ShotFrame
+						id="ghost-traffic"
+						caption="Ghost fleet — other pilots in your world, render-only."
+						alt="Ghost traffic of other pilots in Kerbal Space Program"
+					/>
+				</div>
+			</div>
 		</div>
 	</section>
 

@@ -1,0 +1,34 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+	/** Filename stem under public/shots/ — drop `radio-hud.png` (or .webp/.jpg) to fill. */
+	id: string;
+	caption: string;
+	alt?: string;
+	/** wide | square | tall — reserved frame shape until the shot lands */
+	ratio?: 'wide' | 'square' | 'tall';
+}
+
+const { id, caption, alt = caption, ratio = 'wide' } = Astro.props;
+
+const shotsDir = path.join(process.cwd(), 'public', 'shots');
+const candidates = [`${id}.webp`, `${id}.png`, `${id}.jpg`, `${id}.jpeg`];
+const found = candidates.find((name) => fs.existsSync(path.join(shotsDir, name)));
+const src = found ? `/shots/${found}` : null;
+---
+
+<figure class:list={['shot', `shot--${ratio}`, { 'shot--empty': !src }]}>
+	{
+		src ? (
+			<img class="shot__img" src={src} alt={alt} loading="lazy" decoding="async" />
+		) : (
+			<div class="shot__slot" role="img" aria-label={`${caption} — screenshot pending`}>
+				<span class="shot__slot-label">Screenshot</span>
+				<span class="shot__slot-file">shots/{id}.png</span>
+			</div>
+		)
+	}
+	<figcaption class="shot__caption">{caption}</figcaption>
+</figure>

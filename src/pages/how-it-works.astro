@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import ShotFrame from '../components/ShotFrame.astro';
 import { PRODUCT } from '../consts';
 ---
 
@@ -19,118 +20,191 @@ import { PRODUCT } from '../consts';
 	</section>
 
 	<section class="section" style="padding-top: 0;">
-		<div class="shell prose">
-			<h2>What it is not</h2>
-			<p>
-				It is not a shared-universe multiplayer physics host. Each pilot flies a normal KSP
-				save. Other traffic shows up as ghost vessels and radio — not as shared craft.
-				Tower sees what the plugin publishes (vessel state, radio, optional camera frames)
-				and talks back over voice and ACARS.
-			</p>
+		<div class="shell">
+			<div class="prose">
+				<h2>What it is not</h2>
+				<p>
+					It is not a shared-universe multiplayer physics host. Each pilot flies a normal KSP
+					save. Other traffic shows up as ghost vessels and radio — not as shared craft.
+					Tower sees what the plugin publishes (vessel state, radio, optional camera frames)
+					and talks back over voice and ACARS.
+				</p>
 
-			<h2>Rooms &amp; radio</h2>
-			<p>
-				The lobby lists <strong>server-owned radio channels</strong>, not free-form private
-				rooms. Pilots join by tuning the in-game COM radio. Controllers join the tower queue
-				(“take next call”) or open a desk on an active channel. Signed-in listeners can
-				spectate a room or hear tower audio from the lobby.
-			</p>
-			<p>Stock public channels include:</p>
-			<ul>
-				<li><strong>KSC Tower</strong> — 122.000 MHz</li>
-				<li><strong>KSC Ground</strong> — 121.700 MHz</li>
-				<li><strong>Global Emergency</strong> — 121.500 MHz</li>
-				<li><strong>ATIS</strong> — 128.250 MHz (readout + loop; not a closeable lobby room)</li>
-			</ul>
-			<p>
-				A session scopes chat, telemetry, hull-cam, strips, checklist, squawk, callsign, and
-				countdown. Voice rides a LiveKit ops room bound to that session. Release packs bake
-				the API host into the player ZIP so pilots do not hand-edit URLs.
-			</p>
+				<h2>Rooms &amp; radio</h2>
+				<p>
+					The lobby lists <strong>server-owned radio channels</strong>, not free-form private
+					rooms. Pilots join by tuning the in-game COM radio. Controllers join the tower queue
+					(“take next call”) or open a desk on an active channel. Signed-in listeners can
+					spectate a room or hear tower audio from the lobby.
+				</p>
+				<p>Stock public channels include:</p>
+				<ul>
+					<li><strong>KSC Tower</strong> — 122.000 MHz</li>
+					<li><strong>KSC Ground</strong> — 121.700 MHz</li>
+					<li><strong>Global Emergency</strong> — 121.500 MHz</li>
+					<li><strong>ATIS</strong> — 128.250 MHz (readout + loop; not a closeable lobby room)</li>
+				</ul>
+				<p>
+					A session scopes chat, telemetry, hull-cam, strips, checklist, squawk, callsign, and
+					countdown. Voice rides a LiveKit ops room bound to that session. Release packs bake
+					the API host into the player ZIP so pilots do not hand-edit URLs.
+				</p>
+			</div>
 
-			<h2>Pilot path</h2>
-			<ol>
-				<li>Install Module Manager and the KSC Tower Network GameData pack.</li>
-				<li>Launch KSP — the bundled voice bridge starts with the game.</li>
-				<li>Pair the plugin from the web app (exchange code), then tune TWR / GND / EMRG.</li>
-				<li>Hold PTT (default <code>R</code>, or IVA RPM/MAS), fly your own save, and stream telemetry.</li>
-			</ol>
-			<p>
-				Optional mods deepen immersion without being hard requirements: ClickThroughBlocker
-				for UI clicks, RasterPropMonitor / MAS for IVA PTT, kOS for ACARS scripts and a
-				mirrored terminal, HullCam + JRTI for camera snapshots, Kerbalism for radiation on
-				the strip.
-			</p>
+			<div class="shot-block">
+				<div class="shot-grid">
+					<ShotFrame
+						id="lobby-channels"
+						caption="Lobby — server radio channels and the controller queue."
+						alt="KSC Tower Network lobby with radio channels"
+					/>
+					<ShotFrame
+						id="radio-hud"
+						caption="In-game COM — claim a channel by tuning the frequency."
+						alt="In-game COM radio tuned to tower"
+					/>
+				</div>
+			</div>
 
-			<h2>Controller path</h2>
-			<ol>
-				<li>Open the hosted tower web app in any modern browser — no KSP install.</li>
-				<li>Sign in, open the lobby, and queue for the next pilot call (or assume a vacant seat).</li>
-				<li>Work the desk: map, clearances, voice, ACARS, countdown, and a customizable tower wall.</li>
-				<li>Use mod tools when you have them — mute, kick, close rooms, booth kill-switch.</li>
-			</ol>
+			<div class="prose">
+				<h2>Pilot path</h2>
+				<ol>
+					<li>Install Module Manager and the KSC Tower Network GameData pack.</li>
+					<li>Launch KSP — the bundled voice bridge starts with the game (Windows x64).</li>
+					<li>Pair the plugin from the web app (exchange code), then tune TWR / GND / EMRG.</li>
+					<li>
+						Hold PTT (default <code>R</code>, or IVA RPM/MAS). Leave the beacon on to stream
+						telemetry; flip it off to pause the strip without dropping voice.
+					</li>
+				</ol>
+				<p>
+					Optional mods deepen immersion without being hard requirements: ClickThroughBlocker
+					for UI clicks, RasterPropMonitor / MAS for IVA PTT, kOS for ACARS scripts and a
+					mirrored terminal, HullCam + JRTI for camera snapshots, Kerbalism for radiation on
+					the strip. Chatterer is not recommended — live ATC overlaps badly with simulated
+					chatter.
+				</p>
 
-			<h2>Spectator path</h2>
-			<ol>
-				<li>Sign in with a real account (guests cannot spectate).</li>
-				<li>From the lobby, hit Spectate on an active room — listen-only tower desk.</li>
-				<li>Watch map, telemetry, hull-cam, and countdown; hear ops voice without PTT.</li>
-				<li>
-					Use the <strong>booth</strong> side channel to chatter with other spectators —
-					the pilot does not hear it; the assigned controller bridges both sides.
-				</li>
-			</ol>
+				<h2>Controller path</h2>
+				<ol>
+					<li>Open the hosted tower web app in any modern browser — no KSP install.</li>
+					<li>Sign in, open the lobby, and queue for the next pilot call (or assume a vacant seat).</li>
+					<li>
+						Work the desk: map (Kerbin, plus RSS / JNSQ / OPM plates when the pilot’s world
+						matches), clearances, voice, ACARS, countdown, staging spots, and a customizable
+						tower wall.
+					</li>
+					<li>
+						Automation helps with approach sequence, separation, runway occupancy, and RP
+						violations — still role-play, not physics enforcement.
+					</li>
+				</ol>
+			</div>
 
-			<h2>Operator path</h2>
-			<p>
-				Someone has to run the network. Production needs three public pieces:
-			</p>
-			<ul>
-				<li><strong>Backend API</strong> — Node service with MariaDB/Redis and auth.</li>
-				<li><strong>Web SPA</strong> — the tower desk (static host or same origin as the API).</li>
-				<li><strong>LiveKit</strong> — realtime voice rooms (LiveKit Cloud works fine).</li>
-			</ul>
-			<p>
-				Operators set signup mode (open, invite-only, etc.), bake hostnames into the player
-				ZIP, and follow the mod docs (<code>HOSTING.md</code> / <code>DEPLOYMENT.md</code>).
-			</p>
+			<div class="shot-block">
+				<div class="shot-grid">
+					<ShotFrame
+						id="tower-desk"
+						caption="Tower desk — map, clearances, and live strips."
+						alt="Controller tower desk"
+					/>
+					<ShotFrame
+						id="tower-wall"
+						caption="Tower wall — hull-cam, countdown, radar, and more."
+						alt="Customizable tower monitor wall"
+					/>
+				</div>
+			</div>
 
-			<h2>Roles</h2>
-			<p>
-				Account access climbs
-				<code>guest → pilot → controller → mod → supermod → owner</code>.
-			</p>
-			<ul>
-				<li><strong>Guest</strong> — lobby text chat only. No voice, plugin, DMs, or spectate.</li>
-				<li><strong>Pilot</strong> — plugin, voice publish, telemetry, ACARS, Dragon Radar play.</li>
-				<li><strong>Controller</strong> — tower desk, queue/assume seat, clearances, countdown, booth mute.</li>
-				<li><strong>Mod+</strong> — enforcement (mute, ban, kick, close others’ rooms). Owner is pinned and cannot be banned out.</li>
-			</ul>
-			<p>
-				Inside a room you are also a session seat — <code>pilot</code>, <code>controller</code>,
-				or <code>spectator</code>. Those are separate from your account rank.
-			</p>
+			<div class="prose">
+				<h2>Spectator path</h2>
+				<ol>
+					<li>Sign in with a real account (guests cannot spectate).</li>
+					<li>From the lobby, hit Spectate on an active room — listen-only tower desk.</li>
+					<li>Watch map, telemetry, hull-cam, and countdown; hear ops voice without PTT.</li>
+					<li>
+						Use the <strong>booth</strong> side channel to chatter with other spectators —
+						the pilot does not hear it; the assigned controller bridges both sides.
+					</li>
+				</ol>
+			</div>
 
-			<h2>Extras that ship</h2>
-			<ul>
-				<li>
-					<strong>Ghost fleet</strong> — render-only proxies of other pilots in your world
-					(toggle on the radio). Same-world only; not shared physics.
-				</li>
-				<li>
-					<strong>Dragon Radar</strong> — room-scoped mini-game: find seven balls on the
-					body, claim while landed, fight via ghosts + ACARS; collect all for a one-shot
-					crew-restore wish. Spectators get a wall map + roster.
-				</li>
-				<li>
-					<strong>Clearances &amp; scorecard</strong> — takeoff / landing / taxi / hold short /
-					go-around (RP only), plus auto scoring from telemetry and manual ATC notes.
-				</li>
-				<li>
-					<strong>Launch countdown</strong> — synced clock to the in-game HUD; start, scrub,
-					cleared for takeoff.
-				</li>
-			</ul>
+			<div class="shot-block">
+				<div class="shot-grid">
+					<ShotFrame
+						id="spectator-booth"
+						caption="Booth — spectator commentary the pilot never hears."
+						alt="Spectator booth side channel"
+					/>
+					<ShotFrame
+						id="dragon-radar"
+						caption="Dragon Radar — room-scoped hunt across the body."
+						alt="Dragon Radar mini-game map"
+					/>
+				</div>
+			</div>
+
+			<div class="prose">
+				<h2>Operator path</h2>
+				<p>
+					Someone has to run the network. Production needs three public pieces:
+				</p>
+				<ul>
+					<li><strong>Backend API</strong> — Node service with MariaDB/Redis and auth.</li>
+					<li><strong>Web SPA</strong> — the tower desk (static host or same origin as the API).</li>
+					<li><strong>LiveKit</strong> — realtime voice rooms (LiveKit Cloud works fine).</li>
+				</ul>
+				<p>
+					Operators set signup mode (open, invite-only, or closed), bake hostnames into the
+					player ZIP, and follow the mod docs (<code>HOSTING.md</code> /
+					<code>DEPLOYMENT.md</code>).
+				</p>
+
+				<h2>Roles</h2>
+				<p>
+					Account access climbs
+					<code>guest → pilot → controller → mod → supermod → owner</code>.
+				</p>
+				<ul>
+					<li><strong>Guest</strong> — lobby text chat only. No voice, plugin, DMs, or spectate.</li>
+					<li><strong>Pilot</strong> — plugin, voice publish, telemetry, ACARS, Dragon Radar play.</li>
+					<li><strong>Controller</strong> — tower desk, queue/assume seat, clearances, countdown, booth mute.</li>
+					<li><strong>Mod+</strong> — enforcement (mute, ban, kick, close others’ rooms). Owner is pinned and cannot be banned out.</li>
+				</ul>
+				<p>
+					Inside a room you are also a session seat — <code>pilot</code>, <code>controller</code>,
+					or <code>spectator</code>. Those are separate from your account rank.
+				</p>
+
+				<h2>Extras that ship</h2>
+				<ul>
+					<li>
+						<strong>Ghost fleet</strong> — render-only proxies of other pilots in your world
+						(toggle on the radio). Same-world only; not shared physics.
+					</li>
+					<li>
+						<strong>Dragon Radar</strong> — room-scoped mini-game: find seven balls on the
+						body, claim while landed, fight via ghosts + ACARS; collect all for a one-shot
+						crew-restore wish. Spectators get a wall map + roster.
+					</li>
+					<li>
+						<strong>Clearances &amp; scorecard</strong> — takeoff / landing / taxi / hold short /
+						go-around (RP only), plus auto scoring from telemetry and manual ATC notes.
+					</li>
+					<li>
+						<strong>Launch countdown</strong> — synced clock to the in-game HUD; start, scrub,
+						cleared for takeoff.
+					</li>
+					<li>
+						<strong>Stream as Tower</strong> — a flight client with a stationary HullCam craft
+						can publish a tower-view feed (not the Space Centre camera).
+					</li>
+					<li>
+						<strong>Kerbalizer</strong> — optional send-path DSP so your mic sounds like radio
+						traffic.
+					</li>
+				</ul>
+			</div>
 
 			<div class="cta-row" style="margin-top: 2.5rem;">
 				<a class="btn btn-primary" href="/get-started">Get started</a>
