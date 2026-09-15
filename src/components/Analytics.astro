@@ -2,9 +2,13 @@
 /**
  * GA4 + PostHog bootstraps matching sitebase's inject-google-analytics.py:
  * gtag config, PostHog snippet, and privacy-safe site_click tracking.
- * Both skip owner opt-out (?internal=1 / ph_opt_out) and bot/agent UAs;
- * PostHog tags inited sessions with traffic_kind: 'user' (same as VPS sites).
- * Only loads when the corresponding PUBLIC_ env vars are set.
+ *
+ * Both GA and PostHog are gated by the same sticky owner opt-out
+ * (?internal=1 → localStorage + cookie ph_opt_out=1) and the same bot/agent
+ * UA matcher. Opted-out and bot traffic skip googletagmanager, gtag config,
+ * GA site_click, and posthog.init. PostHog tags real sessions with
+ * traffic_kind: 'user'. Only loads when the corresponding PUBLIC_ env vars
+ * are set.
  */
 const gaId = String(import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? '').trim();
 const posthogToken = String(import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN ?? '').trim();
@@ -39,113 +43,133 @@ const hostOk = (() => {
 {
 	(gaOk || (posthogOk && hostOk)) && (
 		<script is:inline>
-			window.__siteAnalyticsSkip = (function () {
-				try {
-					if (new URLSearchParams(window.location.search).get('internal') === '1') {
-						try {
-							localStorage.setItem('ph_opt_out', '1');
-						} catch (_) {}
-						document.cookie = 'ph_opt_out=1; SameSite=Lax; path=/; max-age=31536000';
-						return true;
+			(function (w) {
+				function applyOwnerOptOut() {
+					try {
+						localStorage.setItem('ph_opt_out', '1');
+					} catch (_) {}
+					document.cookie = 'ph_opt_out=1; SameSite=Lax; path=/; max-age=31536000';
+				}
+				function hasOwnerOptOut() {
+					try {
+						if (localStorage.getItem('ph_opt_out') === '1') return true;
+					} catch (_) {}
+					return /(?:^|;\s*)ph_opt_out=1(?:;|$)/.test(document.cookie);
+				}
+				function isBotUa(ua) {
+					var s = String(ua || '');
+					return (
+						/UptimeRobot|HeadlessChrome|Playwright|Puppeteer|PhantomJS|Selenium|Googlebot|bingbot|Slackbot|Discordbot|facebookexternalhit/i.test(
+							s,
+						) ||
+						/(?:bot|crawler|spider)(?:[^A-Za-z0-9]|$)|(?:^|[^A-Za-z0-9])(?:wget|curl|python-requests|Go-http-client)(?:[^A-Za-z0-9]|$)/i.test(
+							s,
+						)
+					);
+				}
+				function shouldSkipAnalytics() {
+					try {
+						if (new URLSearchParams(w.location.search).get('internal') === '1') {
+							applyOwnerOptOut();
+							return true;
+						}
+					} catch (_) {}
+					if (hasOwnerOptOut()) return true;
+					return isBotUa(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+				}
+				w.__siteAnalytics = {
+					applyOwnerOptOut: applyOwnerOptOut,
+					hasOwnerOptOut: hasOwnerOptOut,
+					isBotUa: isBotUa,
+					shouldSkipAnalytics: shouldSkipAnalytics,
+				};
+			})(window);
+		</script>
+	)
+}
+
+{
+	gaOk && (
+		<script is:inline define:vars={{ gaId }}>
+			(function () {
+				if (!window.__siteAnalytics || window.__siteAnalytics.shouldSkipAnalytics()) return;
+				var loader = document.createElement('script');
+				loader.async = true;
+				loader.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+				document.head.appendChild(loader);
+				window.dataLayer = window.dataLayer || [];
+				function gtag() {
+					dataLayer.push(arguments);
+				}
+				gtag('js', new Date());
+				gtag('config', gaId);
+				(function () {
+					function textOf(el) {
+						return String(
+							el.getAttribute('data-analytics-label') ||
+								el.getAttribute('aria-label') ||
+								el.textContent ||
+								'',
+						)
+							.trim()
+							.toLowerCase();
 					}
-				} catch (_) {}
-				try {
-					if (localStorage.getItem('ph_opt_out') === '1') return true;
-				} catch (_) {}
-				if (/(?:^|;\s*)ph_opt_out=1(?:;|$)/.test(document.cookie)) return true;
-				var ua = String((typeof navigator !== 'undefined' && navigator.userAgent) || '');
-				if (
-					/UptimeRobot|HeadlessChrome|Playwright|Puppeteer|PhantomJS|Selenium|Googlebot|bingbot|Slackbot|Discordbot|facebookexternalhit/i.test(
-						ua,
-					) ||
-					/(?:bot|crawler|spider)(?:[^A-Za-z0-9]|$)|(?:^|[^A-Za-z0-9])(?:wget|curl|python-requests|Go-http-client)(?:[^A-Za-z0-9]|$)/i.test(
-						ua,
-					)
-				)
-					return true;
-				return false;
+					function classify(el, href) {
+						var text = textOf(el);
+						var hay = (text + ' ' + String(href || '')).toLowerCase();
+						if (
+							el.hasAttribute('download') ||
+							/\.(exe|msi|msix|zip|dmg|pkg|appimage|deb|rpm)(?:$|[?#])/i.test(href || '')
+						)
+							return 'download';
+						if (/\b(buy|purchase|checkout|order|upgrade)\b/.test(hay)) return 'purchase';
+						if (/\b(pricing|price|plans?)\b/.test(hay)) return 'pricing';
+						if (/\b(trial|try free|start free)\b/.test(hay)) return 'trial';
+						if (/\b(download|get app|get it|get ez)\b/.test(hay)) return 'download';
+						if (/\b(account|manage devices|license)\b/.test(hay)) return 'account';
+						if (/\b(learn more|details|features)\b/.test(hay)) return 'learn_more';
+						return el.tagName === 'BUTTON' ? 'button' : 'link';
+					}
+					document.addEventListener(
+						'click',
+						function (event) {
+							var target = event.target;
+							if (!(target instanceof Element)) return;
+							var el = target.closest('a,button,[role=button]');
+							if (!el) return;
+							var href = el.tagName === 'A' ? String(el.getAttribute('href') || '') : '';
+							var destination = '';
+							if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+								try {
+									var url = new URL(href, window.location.href);
+									destination =
+										url.origin === window.location.origin
+											? url.pathname
+											: url.hostname;
+								} catch (_) {}
+							}
+							var props = {
+								click_kind: classify(el, href),
+								element_type: el.tagName.toLowerCase(),
+								element_id: String(el.id || '').slice(0, 80),
+								destination: destination.slice(0, 160),
+								page_path: window.location.pathname,
+							};
+							gtag('event', 'site_click', props);
+						},
+						true,
+					);
+				})();
 			})();
 		</script>
 	)
 }
 
-{gaOk && (
-	<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
-)}
-{gaOk && (
-	<script is:inline define:vars={{ gaId }}>
-		(function () {
-			if (window.__siteAnalyticsSkip) return;
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', gaId);
-			(function () {
-				function textOf(el) {
-					return String(
-						el.getAttribute('data-analytics-label') ||
-							el.getAttribute('aria-label') ||
-							el.textContent ||
-							'',
-					)
-						.trim()
-						.toLowerCase();
-				}
-				function classify(el, href) {
-					var text = textOf(el);
-					var hay = (text + ' ' + String(href || '')).toLowerCase();
-					if (
-						el.hasAttribute('download') ||
-						/\.(exe|msi|msix|zip|dmg|pkg|appimage|deb|rpm)(?:$|[?#])/i.test(href || '')
-					)
-						return 'download';
-					if (/\b(buy|purchase|checkout|order|upgrade)\b/.test(hay)) return 'purchase';
-					if (/\b(pricing|price|plans?)\b/.test(hay)) return 'pricing';
-					if (/\b(trial|try free|start free)\b/.test(hay)) return 'trial';
-					if (/\b(download|get app|get it|get ez)\b/.test(hay)) return 'download';
-					if (/\b(account|manage devices|license)\b/.test(hay)) return 'account';
-					if (/\b(learn more|details|features)\b/.test(hay)) return 'learn_more';
-					return el.tagName === 'BUTTON' ? 'button' : 'link';
-				}
-				document.addEventListener(
-					'click',
-					function (event) {
-						var target = event.target;
-						if (!(target instanceof Element)) return;
-						var el = target.closest('a,button,[role=button]');
-						if (!el) return;
-						var href = el.tagName === 'A' ? String(el.getAttribute('href') || '') : '';
-						var destination = '';
-						if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
-							try {
-								var url = new URL(href, window.location.href);
-								destination =
-									url.origin === window.location.origin ? url.pathname : url.hostname;
-							} catch (_) {}
-						}
-						var props = {
-							click_kind: classify(el, href),
-							element_type: el.tagName.toLowerCase(),
-							element_id: String(el.id || '').slice(0, 80),
-							destination: destination.slice(0, 160),
-							page_path: window.location.pathname,
-						};
-						gtag('event', 'site_click', props);
-					},
-					true,
-				);
-			})();
-		})();
-	</script>
-)}
-
 {
 	posthogOk && hostOk && (
 		<script is:inline define:vars={{ posthogToken, posthogHost }}>
 			(function () {
-				if (window.__siteAnalyticsSkip) return;
+				if (!window.__siteAnalytics || window.__siteAnalytics.shouldSkipAnalytics()) return;
 
 				!(function (t, e) {
 					var o, n, p, r;
