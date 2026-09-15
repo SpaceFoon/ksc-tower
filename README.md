@@ -15,6 +15,18 @@ npm install
 npm run dev
 ```
 
+## Analytics
+
+GA4 and PostHog load only when public env vars are set (see `.env.example`). Scripts live in `src/components/Analytics.astro` and match the sitebase public-site injector (`site_click`, shared PostHog project, per-site GA4 ID).
+
+| Var | Source |
+|---|---|
+| `PUBLIC_GA_MEASUREMENT_ID` | GA4 web stream for `ksctower.com` (create when ready; leave empty to skip GA) |
+| `PUBLIC_POSTHOG_PROJECT_TOKEN` | Shared PostHog project API token (same project as the other public sites) |
+| `PUBLIC_POSTHOG_HOST` | `https://us.i.posthog.com` |
+
+Copy `.env.example` → `.env` for local builds. Astro inlines `PUBLIC_*` at **build** time, so production deploys need the same vars in the environment that runs `npm run build` / `npm run deploy` (and optionally as Cloudflare Worker vars).
+
 ## Deploy
 
 ```bash

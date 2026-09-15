@@ -1,0 +1,229 @@
+---
+/**
+ * GA4 + PostHog bootstraps matching sitebase's inject-google-analytics.py:
+ * gtag config, PostHog snippet, and privacy-safe site_click tracking.
+ * Only loads when the corresponding PUBLIC_ env vars are set.
+ */
+const gaId = String(import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? '').trim();
+const posthogToken = String(import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN ?? '').trim();
+const posthogHost = String(
+	import.meta.env.PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
+)
+	.trim()
+	.replace(/\/$/, '');
+
+const gaOk = /^G-[A-Z0-9]+$/i.test(gaId);
+const posthogOk = posthogToken.startsWith('phc_') && /^[A-Za-z0-9._-]+$/.test(posthogToken);
+const hostOk = (() => {
+	try {
+		const u = new URL(posthogHost);
+		const h = (u.hostname || '').toLowerCase();
+		return (
+			u.protocol === 'https:' &&
+			(h === 'posthog.com' || h.endsWith('.posthog.com')) &&
+			!u.username &&
+			!u.password &&
+			!u.port &&
+			(u.pathname === '' || u.pathname === '/') &&
+			!u.search &&
+			!u.hash
+		);
+	} catch {
+		return false;
+	}
+})();
+---
+
+{gaOk && (
+	<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+)}
+{gaOk && (
+	<script is:inline define:vars={{ gaId }}>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+		gtag('config', gaId);
+		(function () {
+			function textOf(el) {
+				return String(
+					el.getAttribute('data-analytics-label') ||
+						el.getAttribute('aria-label') ||
+						el.textContent ||
+						'',
+				)
+					.trim()
+					.toLowerCase();
+			}
+			function classify(el, href) {
+				var text = textOf(el);
+				var hay = (text + ' ' + String(href || '')).toLowerCase();
+				if (
+					el.hasAttribute('download') ||
+					/\.(exe|msi|msix|zip|dmg|pkg|appimage|deb|rpm)(?:$|[?#])/i.test(href || '')
+				)
+					return 'download';
+				if (/\b(buy|purchase|checkout|order|upgrade)\b/.test(hay)) return 'purchase';
+				if (/\b(pricing|price|plans?)\b/.test(hay)) return 'pricing';
+				if (/\b(trial|try free|start free)\b/.test(hay)) return 'trial';
+				if (/\b(download|get app|get it|get ez)\b/.test(hay)) return 'download';
+				if (/\b(account|manage devices|license)\b/.test(hay)) return 'account';
+				if (/\b(learn more|details|features)\b/.test(hay)) return 'learn_more';
+				return el.tagName === 'BUTTON' ? 'button' : 'link';
+			}
+			document.addEventListener(
+				'click',
+				function (event) {
+					var target = event.target;
+					if (!(target instanceof Element)) return;
+					var el = target.closest('a,button,[role=button]');
+					if (!el) return;
+					var href = el.tagName === 'A' ? String(el.getAttribute('href') || '') : '';
+					var destination = '';
+					if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+						try {
+							var url = new URL(href, window.location.href);
+							destination =
+								url.origin === window.location.origin ? url.pathname : url.hostname;
+						} catch (_) {}
+					}
+					var props = {
+						click_kind: classify(el, href),
+						element_type: el.tagName.toLowerCase(),
+						element_id: String(el.id || '').slice(0, 80),
+						destination: destination.slice(0, 160),
+						page_path: window.location.pathname,
+					};
+					gtag('event', 'site_click', props);
+				},
+				true,
+			);
+		})();
+	</script>
+)}
+
+{
+	posthogOk && hostOk && (
+		<script is:inline define:vars={{ posthogToken, posthogHost }}>
+			!(function (t, e) {
+				var o, n, p, r;
+				e.__SV ||
+					(window.posthog && window.posthog.__loaded) ||
+					((window.posthog = e),
+					(e._i = []),
+					(e.init = function (i, s, a) {
+						function g(t, e) {
+							var o = e.split('.');
+							2 == o.length && ((t = t[o[0]]), (e = o[1]));
+							t[e] = function () {
+								t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+							};
+						}
+						p ||
+							(((p = t.createElement('script')).type = 'text/javascript'),
+							(p.crossOrigin = 'anonymous'),
+							(p.async = !0),
+							(p.src =
+								s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') +
+								'/static/array.js'),
+							(p.onerror = function () {
+								p = null;
+							}),
+							(r = t.getElementsByTagName('script')[0]).parentNode.insertBefore(p, r));
+						var u = e;
+						for (
+							void 0 !== a ? (u = e[a] = []) : (a = 'posthog'),
+								u.people = u.people || [],
+								Object.defineProperty(u, 'toString', {
+									configurable: !0,
+									enumerable: !0,
+									writable: !0,
+									value: function (t) {
+										var e = 'posthog';
+										return (
+											'posthog' !== a && (e += '.' + a), t || (e += ' (stub)'), e
+										);
+									},
+								}),
+								Object.defineProperty(u.people, 'toString', {
+									configurable: !0,
+									enumerable: !0,
+									writable: !0,
+									value: function () {
+										return u.toString(1) + '.people (stub)';
+									},
+								}),
+								(o =
+									'init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep'.split(
+										' ',
+									)),
+								(n = 0);
+							n < o.length;
+							n++
+						)
+							g(u, o[n]);
+						e._i.push([i, s, a]);
+					}),
+					(e.__SV = 1));
+			})(document, window.posthog || []);
+			posthog.init(posthogToken, { api_host: posthogHost, defaults: '2026-05-30' });
+			posthog.register({ surface: 'website', site: window.location.hostname });
+			(function () {
+				function textOf(el) {
+					return String(
+						el.getAttribute('data-analytics-label') ||
+							el.getAttribute('aria-label') ||
+							el.textContent ||
+							'',
+					)
+						.trim()
+						.toLowerCase();
+				}
+				function classify(el, href) {
+					var text = textOf(el);
+					var hay = (text + ' ' + String(href || '')).toLowerCase();
+					if (
+						el.hasAttribute('download') ||
+						/\.(exe|msi|msix|zip|dmg|pkg|appimage|deb|rpm)(?:$|[?#])/i.test(href || '')
+					)
+						return 'download';
+					if (/\b(buy|purchase|checkout|order|upgrade)\b/.test(hay)) return 'purchase';
+					if (/\b(pricing|price|plans?)\b/.test(hay)) return 'pricing';
+					if (/\b(trial|try free|start free)\b/.test(hay)) return 'trial';
+					if (/\b(download|get app|get it|get ez)\b/.test(hay)) return 'download';
+					if (/\b(account|manage devices|license)\b/.test(hay)) return 'account';
+					if (/\b(learn more|details|features)\b/.test(hay)) return 'learn_more';
+					return el.tagName === 'BUTTON' ? 'button' : 'link';
+				}
+				document.addEventListener(
+					'click',
+					function (event) {
+						var target = event.target;
+						if (!(target instanceof Element)) return;
+						var el = target.closest('a,button,[role=button]');
+						if (!el) return;
+						var href = el.tagName === 'A' ? String(el.getAttribute('href') || '') : '';
+						var destination = '';
+						if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+							try {
+								var url = new URL(href, window.location.href);
+								destination =
+									url.origin === window.location.origin ? url.pathname : url.hostname;
+							} catch (_) {}
+						}
+						var props = {
+							click_kind: classify(el, href),
+							element_type: el.tagName.toLowerCase(),
+							element_id: String(el.id || '').slice(0, 80),
+							destination: destination.slice(0, 160),
+							page_path: window.location.pathname,
+						};
+						posthog.capture('site_click', props);
+					},
+					true,
+				);
+			})();
+		</script>
+	)
+}

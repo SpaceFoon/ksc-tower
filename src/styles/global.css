@@ -212,11 +212,11 @@ a:hover {
 	inset: 0;
 	z-index: -1;
 	pointer-events: none;
+	animation: soft-in 900ms ease both;
 }
 
 .hero__copy {
 	max-width: 36rem;
-	animation: rise 700ms ease both;
 }
 
 .hero__brand {
@@ -229,6 +229,7 @@ a:hover {
 	text-transform: uppercase;
 	color: var(--ink);
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+	animation: rise 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero__headline {
@@ -239,6 +240,7 @@ a:hover {
 	line-height: 1.2;
 	letter-spacing: 0.02em;
 	color: var(--ink-soft);
+	animation: rise 720ms cubic-bezier(0.22, 1, 0.36, 1) 90ms both;
 }
 
 .hero__lede {
@@ -246,12 +248,17 @@ a:hover {
 	max-width: 32rem;
 	font-size: 1.15rem;
 	color: var(--ink-soft);
+	animation: rise 720ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
 }
 
 .cta-row {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75rem;
+}
+
+.hero__copy .cta-row {
+	animation: rise 720ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
 }
 
 .section {
@@ -295,7 +302,7 @@ a:hover {
 
 @media (min-width: 800px) {
 	.flow {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
 		gap: 2rem;
 	}
 }
@@ -380,12 +387,14 @@ a:hover {
 	letter-spacing: 0.03em;
 	text-transform: uppercase;
 	line-height: 1.05;
+	animation: rise 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .page-hero p {
 	margin: 0;
 	max-width: 40rem;
 	color: var(--ink-soft);
+	animation: rise 640ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
 }
 
 .prose {
@@ -487,6 +496,17 @@ a:hover {
 	}
 }
 
+@keyframes soft-in {
+	from {
+		opacity: 0;
+		transform: scale(1.02);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
 @keyframes sweep {
 	from {
 		transform: rotate(-18deg);
@@ -499,10 +519,227 @@ a:hover {
 @keyframes pulse-blip {
 	0%,
 	100% {
-		opacity: 0.35;
+		opacity: 0.4;
+		transform: scale(0.75);
 	}
 	50% {
 		opacity: 1;
+		transform: scale(1.55);
+	}
+}
+
+/* Left-to-right traffic pattern: upwind / crosswind / downwind / base / final */
+@keyframes plane-circuit {
+	0% {
+		transform: translate(40px, 590px) rotate(2deg) scaleX(1);
+		opacity: 0;
+	}
+	4% {
+		opacity: 0.72;
+	}
+	18% {
+		transform: translate(280px, 575px) rotate(-4deg) scaleX(1);
+	}
+	32% {
+		transform: translate(560px, 500px) rotate(-28deg) scaleX(1);
+	}
+	40% {
+		transform: translate(620px, 430px) rotate(-8deg) scaleX(1);
+	}
+	42% {
+		transform: translate(640px, 420px) rotate(0deg) scaleX(-1);
+	}
+	58% {
+		transform: translate(320px, 390px) rotate(4deg) scaleX(-1);
+	}
+	72% {
+		transform: translate(90px, 460px) rotate(32deg) scaleX(-1);
+	}
+	82% {
+		transform: translate(50px, 540px) rotate(12deg) scaleX(-1);
+	}
+	84% {
+		transform: translate(45px, 555px) rotate(0deg) scaleX(1);
+	}
+	96% {
+		transform: translate(200px, 585px) rotate(2deg) scaleX(1);
+		opacity: 0.72;
+	}
+	100% {
+		transform: translate(40px, 590px) rotate(2deg) scaleX(1);
+		opacity: 0;
+	}
+}
+
+@keyframes heli-orbit {
+	0% {
+		transform: translate(260px, 480px) rotate(-6deg);
+	}
+	20% {
+		transform: translate(420px, 420px) rotate(4deg);
+	}
+	45% {
+		transform: translate(520px, 340px) rotate(10deg);
+	}
+	65% {
+		transform: translate(360px, 300px) rotate(-2deg);
+	}
+	85% {
+		transform: translate(200px, 380px) rotate(-10deg);
+	}
+	100% {
+		transform: translate(260px, 480px) rotate(-6deg);
+	}
+}
+
+@keyframes rotor-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(180deg);
+	}
+}
+
+/* Far-right pad — percentages are viewBox (1200×800): 85%≈1020, 70%≈560 */
+@keyframes rocket-ascent {
+	0%,
+	8% {
+		transform: translate(85%, 69.75%);
+		opacity: 1;
+	}
+	12% {
+		transform: translate(85%, 68.5%);
+		opacity: 1;
+	}
+	50% {
+		transform: translate(86%, 12%);
+		opacity: 1;
+	}
+	68% {
+		transform: translate(87%, -8%);
+		opacity: 0;
+	}
+	69%,
+	100% {
+		transform: translate(85%, 69.75%);
+		opacity: 0;
+	}
+}
+
+@keyframes flame-flicker {
+	from {
+		transform: scaleY(0.85) scaleX(1.05);
+	}
+	to {
+		transform: scaleY(1.15) scaleX(0.92);
+	}
+}
+
+@keyframes flame-gate {
+	0%,
+	8% {
+		opacity: 0;
+	}
+	10%,
+	55% {
+		opacity: 1;
+	}
+	68%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes smoke-bloom {
+	0%,
+	5% {
+		transform: translate(85%, 78.5%) scale(0.25);
+		opacity: 0;
+	}
+	10% {
+		transform: translate(85%, 78.5%) scale(0.9);
+		opacity: 1;
+	}
+	25% {
+		transform: translate(84.5%, 78.25%) scale(1.45);
+		opacity: 1;
+	}
+	45% {
+		transform: translate(84%, 78%) scale(1.85);
+		opacity: 0.95;
+	}
+	70% {
+		transform: translate(83.5%, 78%) scale(2.05);
+		opacity: 0.45;
+	}
+	88%,
+	100% {
+		transform: translate(83%, 78%) scale(2.15);
+		opacity: 0;
+	}
+}
+
+@keyframes smoke-haze {
+	0%,
+	5% {
+		transform: translate(85%, 79%) scale(0.3);
+		opacity: 0;
+	}
+	12% {
+		transform: translate(84.75%, 78.75%) scale(1);
+		opacity: 0.7;
+	}
+	35% {
+		transform: translate(84.25%, 78.5%) scale(1.55);
+		opacity: 0.85;
+	}
+	65% {
+		transform: translate(83.75%, 78.5%) scale(1.9);
+		opacity: 0.4;
+	}
+	88%,
+	100% {
+		transform: translate(83.25%, 78.5%) scale(2);
+		opacity: 0;
+	}
+}
+
+@keyframes exhaust-column {
+	0%,
+	8% {
+		transform: translate(85%, 76%) scale(0.5, 0.25);
+		opacity: 0;
+	}
+	12% {
+		transform: translate(85%, 75.5%) scale(1, 0.55);
+		opacity: 0.75;
+	}
+	40% {
+		transform: translate(85%, 74.5%) scale(1.05, 0.85);
+		opacity: 0.4;
+	}
+	58% {
+		transform: translate(85%, 74%) scale(0.95, 0.95);
+		opacity: 0.15;
+	}
+	68%,
+	100% {
+		transform: translate(85%, 74%) scale(0.8, 1);
+		opacity: 0;
+	}
+}
+
+@keyframes puff-drift {
+	0%,
+	8% {
+		transform: translate(0, 0);
+	}
+	40% {
+		transform: translate(var(--puff-x, 8px), -4px);
+	}
+	100% {
+		transform: translate(var(--puff-x, 20px), -8px);
 	}
 }
 
@@ -527,8 +764,62 @@ a:hover {
 		scroll-behavior: auto;
 	}
 
-	.hero__copy,
-	.scope__beam {
+	.hero__brand,
+	.hero__headline,
+	.hero__lede,
+	.hero__copy .cta-row,
+	.hero__visual,
+	.page-hero h1,
+	.page-hero p,
+	.scope__beam,
+	.scope__plane,
+	.scope__heli,
+	.scope__rotor,
+	.scope__tail-rotor,
+	.scope__rocket,
+	.scope__flame,
+	.scope__smoke,
+	.scope__smoke-haze,
+	.scope__smoke-core,
+	.scope__exhaust,
+	.scope__smoke-puff--a,
+	.scope__smoke-puff--b,
+	.scope__smoke-puff--c,
+	.scope__smoke-puff--d,
+	.scope__smoke-puff--e,
+	.scope__smoke-puff--f,
+	.scope__smoke-puff--g,
+	.scope__smoke-puff--h,
+	.scope__smoke-puff--i {
 		animation: none !important;
+	}
+
+	.scope__plane {
+		transform: translate(280px, 575px) rotate(-4deg);
+	}
+
+	.scope__heli {
+		transform: translate(360px, 360px);
+	}
+
+	.scope__rocket {
+		transform: translate(85%, 52%);
+		opacity: 1;
+	}
+
+	.scope__smoke {
+		transform: translate(84%, 78%) scale(1.6);
+		opacity: 0.9;
+	}
+
+	.scope__smoke-haze,
+	.scope__smoke-core {
+		transform: translate(84%, 78.5%) scale(1.5);
+		opacity: 0.7;
+	}
+
+	.scope__exhaust {
+		transform: translate(85%, 75%) scale(1, 0.7);
+		opacity: 0.45;
 	}
 }

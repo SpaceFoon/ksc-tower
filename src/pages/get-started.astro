@@ -5,7 +5,7 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 
 <PageLayout
 	title="Get started"
-	description="How to prepare for KSC Tower Network as a pilot, controller, or tower operator."
+	description="How to prepare for KSC Tower Network as a pilot, controller, spectator, or tower operator."
 >
 	<section class="page-hero">
 		<div class="shell">
@@ -25,15 +25,20 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 			<ul class="checklist" style="max-width: 42rem; margin-bottom: 2.5rem;">
 				<li>Kerbal Space Program {KSP_VERSION} (Windows x64 for the bundled voice bridge).</li>
 				<li>Module Manager (required dependency).</li>
-				<li>A tower API URL from your community operator — or host your own.</li>
+				<li>The community player ZIP (tower host is already baked in) — or a self-hosted build if you run your own tower.</li>
 				<li>Recommended: ClickThroughBlocker so tower panels do not click through to the craft.</li>
 			</ul>
 
 			<div class="prose">
 				<h2>If you want to fly</h2>
 				<p>
-					When the release pack ships, you drop <code>GameData/KSCTowerNetwork/</code> into
-					your KSP install, launch the game, and connect with the baked-in tower host.
+					When the release pack ships, drop <code>GameData/KSCTowerNetwork/</code> into
+					your KSP install and launch. Pair the plugin with a short code from the web app,
+					tune the in-game radio (TWR 122.0 / GND 121.7 / EMRG 121.5), and talk on PTT
+					(default <code>R</code>). Telemetry streams while the beacon is on; other pilots
+					appear as ghosts in your world, not as shared vessels.
+				</p>
+				<p>
 					Until that ZIP is published, follow the open repository and wait for a tagged
 					release.
 				</p>
@@ -46,16 +51,25 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 
 				<h2>If you want to control</h2>
 				<p>
-					Controllers only need a browser and credentials for a hosted tower desk. No KSP
-					install required. When a public session is announced, you will open the tower URL,
-					sign in, and take the seat.
+					Controllers only need a browser and a signed-in account. No KSP install.
+					Open the lobby, join the controller queue (“take next call”), or assume a vacant
+					seat on an active radio channel. Work map, clearances, voice, ACARS, countdown,
+					and the tower wall from there.
+				</p>
+
+				<h2>If you want to spectate</h2>
+				<p>
+					Sign in (guests are lobby-text only), hit Spectate on a room, and watch
+					listen-only. You get ops audio without PTT, plus the booth side channel for
+					spectator chatter the pilot does not hear. If your account can assume tower,
+					you can take a vacant seat from there.
 				</p>
 
 				<h2>If you want to host</h2>
 				<p>
-					Operators stand up the API, web desk, and LiveKit project, then run the packaging
-					script so player builds point at those hosts. The mod repo documents env vars,
-					CORS, MariaDB, Redis, and the release ZIP flow.
+					Operators stand up the API, web desk, and LiveKit project, choose signup policy,
+					then run the packaging script so player builds point at those hosts. The mod
+					repo documents env vars, CORS, MariaDB, Redis, and the release ZIP flow.
 				</p>
 				<p>
 					Status right now: the product stack exists and is documented for production; this

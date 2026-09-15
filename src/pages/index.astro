@@ -7,16 +7,18 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 <PageLayout description={SITE_DESCRIPTION}>
 	<section class="hero">
 		<ScopeVisual />
-		<div class="shell hero__copy">
-			<p class="hero__brand">{BRAND}</p>
-			<h1 class="hero__headline">Real ATC for Kerbal Space Program</h1>
-			<p class="hero__lede">
-				Pilots fly in KSP. Controllers work the tower in any browser. Live voice, map
-				telemetry, ACARS, and hull-cam — an ATC layer on top of vanilla flight.
-			</p>
-			<div class="cta-row">
-				<a class="btn btn-primary" href="/get-started">Get started</a>
-				<a class="btn btn-secondary" href="/how-it-works">How it works</a>
+		<div class="shell">
+			<div class="hero__copy">
+				<p class="hero__brand">{BRAND}</p>
+				<h1 class="hero__headline">Real ATC for Kerbal Space Program</h1>
+				<p class="hero__lede">
+					Pilots fly in KSP. Controllers work the tower in any browser. Live voice, map
+					telemetry, ACARS, and hull-cam — an ATC layer on top of vanilla flight.
+				</p>
+				<div class="cta-row">
+					<a class="btn btn-primary" href="/get-started">Get started</a>
+					<a class="btn btn-secondary" href="/how-it-works">How it works</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -24,31 +26,39 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 	<section class="section">
 		<div class="shell">
 			<p class="section__eyebrow">The loop</p>
-			<h2 class="section__title">Three seats. One tower network.</h2>
+			<h2 class="section__title">Four seats. One tower network.</h2>
 			<p class="section__lede">
 				{PRODUCT} connects a KSP client, a browser tower desk, and a hosted backend.
-				There is no shared physics and no shared save — just coordinated ops.
+				There is no shared physics and no shared save — just coordinated ops over
+				server radio channels.
 			</p>
 			<div class="flow">
 				<div class="flow__item">
 					<h3>Pilot</h3>
 					<p>
-						Install the mod, launch the voice bridge with KSP, tune the radio, and
-						talk to tower on PTT while your vessel telemetry streams live.
+						Install the mod, pair the plugin, tune TWR / GND / EMRG, and talk on PTT
+						while telemetry streams. Other traffic shows as ghosts in your world.
 					</p>
 				</div>
 				<div class="flow__item">
 					<h3>Controller</h3>
 					<p>
-						Open the tower web app, take ownership of a session, watch the map,
-						issue clearances over voice and ACARS, and pull hull-cam when you need eyes.
+						Open the tower web app, queue for the next call, work the map and
+						clearances over voice and ACARS, and pull hull-cam when you need eyes.
+					</p>
+				</div>
+				<div class="flow__item">
+					<h3>Spectator</h3>
+					<p>
+						Sign in and watch a room listen-only. Hear ops audio, follow the desk,
+						and use the booth side channel — the pilot never hears the booth.
 					</p>
 				</div>
 				<div class="flow__item">
 					<h3>Operator</h3>
 					<p>
-						Host the API, static tower desk, and LiveKit project. Publish a session
-						URL so your community can drop in and fly.
+						Host the API, static tower desk, and LiveKit project. Bake those hosts
+						into the player ZIP so your community can drop in and fly.
 					</p>
 				</div>
 			</div>
@@ -65,28 +75,36 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 			</p>
 			<ul class="feature-list">
 				<li>
+					<strong>Radio channels</strong>
+					<span>Server-owned TWR / GND / EMRG / ATIS — pilots tune in-game; controllers take the queue.</span>
+				</li>
+				<li>
 					<strong>Duplex voice</strong>
 					<span>LiveKit-backed radio between the KSP bridge and the browser tower desk.</span>
+				</li>
+				<li>
+					<strong>Ghost traffic</strong>
+					<span>Render-only proxies of other pilots in your world — coordinated ops, not shared physics.</span>
+				</li>
+				<li>
+					<strong>Spectator + booth</strong>
+					<span>Signed-in listen-only desk; booth chatter stays off the pilot’s frequency.</span>
 				</li>
 				<li>
 					<strong>Live telemetry map</strong>
 					<span>Position, altitude, heading, and more drawn for the controller in real time.</span>
 				</li>
 				<li>
-					<strong>ACARS &amp; chat</strong>
-					<span>Structured text beside voice — in-game panel, Chat Desk, and DMs.</span>
+					<strong>Clearances &amp; countdown</strong>
+					<span>Takeoff / landing / taxi RP clearances, synced launch HUD, and scorecard.</span>
 				</li>
 				<li>
-					<strong>Hull-cam feed</strong>
-					<span>Optional JRTI / HullCam snapshots forwarded to the tower desk (~1 Hz).</span>
+					<strong>Dragon Radar</strong>
+					<span>Room-scoped mini-game: find the balls, claim while landed, wish your crew back.</span>
 				</li>
 				<li>
-					<strong>Session control</strong>
-					<span>Queues, role gates, scoring, countdown HUDs, runway awareness, moderation.</span>
-				</li>
-				<li>
-					<strong>Graceful integrations</strong>
-					<span>RPM/MAS PTT, kOS ACARS bridge, Kerbalism radiation — light up when present.</span>
+					<strong>Tower wall &amp; hull-cam</strong>
+					<span>Customizable monitor wall plus optional JRTI / HullCam snapshots (~1 Hz).</span>
 				</li>
 			</ul>
 		</div>

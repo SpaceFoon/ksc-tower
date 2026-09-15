@@ -1,5 +1,7 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import BaseHead from '../components/BaseHead.astro';
+import Analytics from '../components/Analytics.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { SITE_DESCRIPTION } from '../consts';
@@ -16,10 +18,14 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
+		<ClientRouter />
+		<Analytics />
 	</head>
 	<body>
-		<SiteHeader />
-		<slot />
+		<SiteHeader transition:persist />
+		<main transition:animate="fade">
+			<slot />
+		</main>
 		<SiteFooter />
 	</body>
 </html>
