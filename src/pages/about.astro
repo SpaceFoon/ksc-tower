@@ -1,6 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { FUNI_URL, GITHUB_MOD, ORG, PRODUCT } from '../consts';
+import { FUNI_URL, GITHUB_SITE, ORG, PRODUCT } from '../consts';
 ---
 
 <PageLayout
@@ -29,8 +29,7 @@ import { FUNI_URL, GITHUB_MOD, ORG, PRODUCT } from '../consts';
 
 			<h2>Who builds it</h2>
 			<p>
-				{PRODUCT} is developed under <a href={FUNI_URL}>{ORG}</a>. The mod sources live on
-				GitHub; this site is the public front door at ksctower.com.
+				{PRODUCT} is developed under <a href={FUNI_URL}>{ORG}</a>. The website source is public on GitHub; this site is the public front door at ksctower.com.
 			</p>
 
 			<h2>What ships today</h2>
@@ -58,8 +57,8 @@ import { FUNI_URL, GITHUB_MOD, ORG, PRODUCT } from '../consts';
 			</p>
 
 			<div class="cta-row" style="margin-top: 2.5rem;">
-				<a class="btn btn-primary" href={GITHUB_MOD} rel="noopener noreferrer" target="_blank"
-					>Mod repository</a
+				<a class="btn btn-primary" href={GITHUB_SITE} rel="noopener noreferrer" target="_blank"
+					>Website source on GitHub</a
 				>
 				<a class="btn btn-secondary" href="/get-started">Get started</a>
 			</div>
