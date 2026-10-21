@@ -8,6 +8,8 @@ Public marketing site for **KSC Tower Network**: multiplayer air-traffic control
 
 Built with Astro and deployed on Cloudflare Workers.
 
+Use Node 24.22.1 LTS for local development and builds (`.nvmrc`). Cloudflare Workers runs the deployed site using its own runtime compatibility settings.
+
 ## Develop
 
 ```bash
