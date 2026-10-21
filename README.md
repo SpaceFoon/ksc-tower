@@ -29,6 +29,15 @@ GA4 and PostHog load only when public env vars are set (see `.env.example`). Scr
 
 Copy `.env.example` → `.env` for local builds. Astro inlines `PUBLIC_*` at **build** time, so production deploys need the same vars in the environment that runs `npm run build` / `npm run deploy` (and optionally as Cloudflare Worker vars).
 
+## Product preview artwork
+
+The pages look for a real capture in `public/shots/` first. Until one is added,
+`ShotFrame.astro` renders a labeled interface illustration for that feature.
+Add a matching `<id>.png` (or WebP/JPEG) to replace the illustration without
+changing page markup. Current preview IDs include `radio-hud`, `tower-desk`,
+`ghost-traffic`, `lobby-channels`, `plugin-pair`, `tower-wall`,
+`spectator-booth`, and `dragon-radar`.
+
 ## Deploy
 
 ```bash
