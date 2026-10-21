@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ShotFrame from '../components/ShotFrame.astro';
-import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
+import { GITHUB_SITE, KSP_VERSION, PRODUCT } from '../consts';
 ---
 
 <PageLayout
@@ -84,8 +84,7 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 					</li>
 				</ol>
 				<p>
-					Until the release ZIP is published, follow the open repository and wait for a tagged
-					release.
+					The public player ZIP is not available yet. Check this website for release information.
 				</p>
 			</div>
 
@@ -106,8 +105,8 @@ import { GITHUB_MOD, KSP_VERSION, PRODUCT } from '../consts';
 
 			<div class="prose">
 				<div class="cta-row" style="margin: 0 0 2.5rem;">
-					<a class="btn btn-primary" href={GITHUB_MOD} rel="noopener noreferrer" target="_blank"
-						>View mod on GitHub</a
+					<a class="btn btn-primary" href={GITHUB_SITE} rel="noopener noreferrer" target="_blank"
+						>Website source on GitHub</a
 					>
 					<a class="btn btn-secondary" href="/how-it-works">Read the loop</a>
 				</div>
