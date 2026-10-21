@@ -3,238 +3,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 interface Props {
-	/** Filename stem under public/shots/ — drop `radio-hud.png` (or .webp/.jpg) to fill. */
+	/** Filename stem under public/shots/ — for example, `tower-desk.png`. */
 	id: string;
 	caption: string;
 	alt?: string;
-	/** wide | square | tall — reserved frame shape until the shot lands */
+	/** wide | square | tall */
 	ratio?: 'wide' | 'square' | 'tall';
 }
 
-interface PreviewRow {
-	label: string;
-	value: string;
-}
-
-interface Preview {
-	title: string;
-	kind: 'radio' | 'scope' | 'channels' | 'pairing' | 'wall' | 'booth' | 'radar';
-	channel?: string;
-	frequency?: string;
-	status?: string;
-	scope?: string;
-	targets?: string[];
-	rows?: PreviewRow[];
-}
-
 const { id, caption, alt = caption, ratio = 'wide' } = Astro.props;
-
-const previews: Record<string, Preview> = {
-	'radio-hud': {
-		title: 'TOWER RADIO',
-		kind: 'radio',
-		channel: 'KSC TOWER',
-		frequency: '122.000',
-		status: 'RECEIVE READY',
-	},
-	'tower-desk': {
-		title: 'TOWER DESK',
-		kind: 'scope',
-		scope: 'KERBIN / KSC',
-		status: 'FLIGHT STRIPS',
-		targets: ['PILOT 01', 'PILOT 02'],
-		rows: [
-			{ label: 'CLEARANCE', value: 'TOWER' },
-			{ label: 'VOICE', value: 'OPS' },
-		],
-	},
-	'ghost-traffic': {
-		title: 'GHOST TRAFFIC',
-		kind: 'scope',
-		scope: 'SAME WORLD',
-		status: 'RENDER ONLY',
-		targets: ['PILOT 01', 'PILOT 02', 'PILOT 03'],
-		rows: [
-			{ label: 'POSITION', value: 'TELEMETRY' },
-			{ label: 'PHYSICS', value: 'LOCAL' },
-		],
-	},
-	'lobby-channels': {
-		title: 'CHANNEL LOBBY',
-		kind: 'channels',
-		status: 'SERVER CHANNELS',
-		rows: [
-			{ label: 'KSC TOWER', value: '122.000' },
-			{ label: 'KSC GROUND', value: '121.700' },
-			{ label: 'GLOBAL EMERGENCY', value: '121.500' },
-			{ label: 'ATIS', value: '128.250' },
-		],
-	},
-	'plugin-pair': {
-		title: 'PLUGIN PAIRING',
-		kind: 'pairing',
-		status: 'EXCHANGE CODE',
-	},
-	'tower-wall': {
-		title: 'TOWER WALL',
-		kind: 'wall',
-		status: 'CUSTOM MONITORS',
-		rows: [
-			{ label: 'MAP', value: 'SCOPE' },
-			{ label: 'STRIPS', value: 'FLIGHTS' },
-			{ label: 'COUNTDOWN', value: 'MISSION' },
-			{ label: 'HULL-CAM', value: 'OPTIONAL' },
-		],
-	},
-	'spectator-booth': {
-		title: 'SPECTATOR BOOTH',
-		kind: 'booth',
-		status: 'LISTEN-ONLY',
-		rows: [
-			{ label: 'OPS', value: 'TOWER AUDIO' },
-			{ label: 'BOOTH', value: 'SIDE CHANNEL' },
-		],
-	},
-	'dragon-radar': {
-		title: 'DRAGON RADAR',
-		kind: 'radar',
-		scope: 'ROOM SEARCH',
-		status: 'SEVEN TARGETS',
-		targets: ['SIGNAL 1', 'SIGNAL 2', 'SIGNAL 3'],
-		rows: [
-			{ label: 'CLAIM', value: 'WHILE LANDED' },
-			{ label: 'PLAYERS', value: 'GHOSTS + ACARS' },
-		],
-	},
-};
-
-const preview = previews[id] ?? {
-	title: 'KSC TOWER',
-	kind: 'scope' as const,
-	scope: 'TOWER NETWORK',
-	status: 'SESSION VIEW',
-	targets: ['PILOT 01'],
-	rows: [{ label: 'LINK', value: 'RADIO' }],
-};
-
 const shotsDir = path.join(process.cwd(), 'public', 'shots');
 const candidates = [`${id}.webp`, `${id}.png`, `${id}.jpg`, `${id}.jpeg`];
 const found = candidates.find((name) => fs.existsSync(path.join(shotsDir, name)));
 const src = found ? `/shots/${found}` : null;
 ---
 
-<figure class:list={['shot', `shot--${ratio}`, { 'shot--empty': !src }]}>
-	{
-		src ? (
+{
+	src && (
+		<figure class:list={['shot', `shot--${ratio}`]}>
 			<img class="shot__img" src={src} alt={alt} loading="lazy" decoding="async" />
-		) : (
-			<div
-				class:list={['shot__preview', `shot__preview--${preview.kind}`]}
-				role="img"
-				aria-label={`Illustrative interface view: ${caption}`}
-			>
-				<div class="preview__topbar">
-					<span class="preview__brand">KSC TOWER</span>
-					<span class="preview__mode">{preview.title}</span>
-				</div>
-				<div class="preview__screen">
-					{
-						preview.kind === 'radio' && (
-							<div class="preview__radio">
-								<span class="preview__radio-channel">{preview.channel}</span>
-								<div class="preview__frequency">
-									<strong>{preview.frequency}</strong>
-									<small>MHz</small>
-								</div>
-								<div class="preview__radio-status">
-									<span><i class="preview__signal" />{preview.status}</span>
-									<span>BEACON / ON</span>
-								</div>
-								<div class="preview__ptt">
-									<strong>HOLD TO TALK</strong>
-									<kbd>R</kbd>
-								</div>
-							</div>
-						)
-					}
-					{
-						(preview.kind === 'scope' || preview.kind === 'radar') && (
-							<div class="preview__scope-view">
-								<div class="preview__scope-frame">
-									{preview.targets?.map((target, index) => (
-										<i class:list={['preview__contact', `preview__contact--${index + 1}`]} title={target} />
-									))}
-								</div>
-								<div class="preview__scope-data">
-									<span class="preview__scope-label">{preview.scope}</span>
-									<strong class="preview__scope-status">{preview.status}</strong>
-									{preview.rows?.map((row) => (
-										<div class="preview__scope-row">
-											<span>{row.label}</span>
-											<strong>{row.value}</strong>
-										</div>
-									))}
-								</div>
-							</div>
-						)
-					}
-					{
-						preview.kind === 'channels' && (
-							<div class="preview__channels">
-								<div class="preview__channel-heading">
-									<span>CHANNEL</span><span>FREQUENCY</span>
-								</div>
-								{preview.rows?.map((row) => (
-									<div class="preview__channel-row">
-										<span><i class="preview__channel-dot" />{row.label}</span>
-										<strong>{row.value}</strong>
-									</div>
-								))}
-								<div class="preview__queue">TAKE NEXT CALL</div>
-							</div>
-						)
-					}
-					{
-						preview.kind === 'pairing' && (
-							<div class="preview__pairing">
-								<span class="preview__pairing-title">PAIR KSP CLIENT</span>
-								<div class="preview__code" aria-hidden="true">
-									<i>•</i><i>•</i><i>•</i><b>–</b><i>•</i><i>•</i><i>•</i>
-								</div>
-								<span class="preview__pairing-help">{preview.status}</span>
-								<div class="preview__pairing-route"><span>WEB DESK</span><i>↔</i><span>KSP CLIENT</span></div>
-							</div>
-						)
-					}
-					{
-						preview.kind === 'wall' && (
-							<div class="preview__wall">
-								{preview.rows?.map((row, index) => (
-									<div class:list={['preview__monitor', `preview__monitor--${index + 1}`]}>
-										<span>{row.label}</span><strong>{row.value}</strong>
-									</div>
-								))}
-							</div>
-						)
-					}
-					{
-						preview.kind === 'booth' && (
-							<div class="preview__booth">
-								{preview.rows?.map((row) => (
-									<div class:list={['preview__booth-channel', `preview__booth-channel--${row.label.toLowerCase()}`]}>
-										<span>{row.label}</span><strong>{row.value}</strong>
-									</div>
-								))}
-							</div>
-						)
-					}
-				</div>
-				<div class="preview__foot">
-					<span>{preview.status ?? 'KSC TOWER NETWORK'}</span>
-					<span>Illustrative view</span>
-				</div>
-			</div>
-		)
-	}
-	<figcaption class="shot__caption">{caption}</figcaption>
-</figure>
+			<figcaption class="shot__caption">{caption}</figcaption>
+		</figure>
+	)
+}
+
