@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import ShotFrame from '../components/ShotFrame.astro';
 import { GITHUB_SITE, KSP_VERSION, PRODUCT } from '../consts';
 ---
 
@@ -88,21 +87,6 @@ import { GITHUB_SITE, KSP_VERSION, PRODUCT } from '../consts';
 				</p>
 			</div>
 
-			<div class="shot-block" style="margin-bottom: 2.5rem;">
-				<div class="shot-grid">
-					<ShotFrame
-						id="plugin-pair"
-						caption="Pair plugin — web mints a code; paste it in KSP."
-						alt="Plugin pairing exchange code"
-					/>
-					<ShotFrame
-						id="radio-hud"
-						caption="On frequency — PTT, beacon, and ATIS from the radio HUD."
-						alt="In-game radio HUD after pairing"
-					/>
-				</div>
-			</div>
-
 			<div class="prose">
 				<div class="cta-row" style="margin: 0 0 2.5rem;">
 					<a class="btn btn-primary" href={GITHUB_SITE} rel="noopener noreferrer" target="_blank"
@@ -149,3 +133,4 @@ import { GITHUB_SITE, KSP_VERSION, PRODUCT } from '../consts';
 		</div>
 	</section>
 </PageLayout>
+
