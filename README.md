@@ -29,14 +29,15 @@ GA4 and PostHog load only when public env vars are set (see `.env.example`). Scr
 
 Copy `.env.example` → `.env` for local builds. Astro inlines `PUBLIC_*` at **build** time, so production deploys need the same vars in the environment that runs `npm run build` / `npm run deploy` (and optionally as Cloudflare Worker vars).
 
-## Product screen preview
+## Product screen previews
 
-The homepage embeds the actual flightwall interface from the KSCTower web app.
-The static files in `public/product-preview/` are built from
-`KSCTowerNetwork-dev/web/src/components/TowerRadarScope.tsx` through the
-`FlightWallPreview.tsx` harness. The displayed aircraft and telemetry are
-sample data, not a live KSP session. Refresh the bundle when the product UI
-changes; do not replace missing captures with drawn interface stand-ins.
+The homepage shows three actual components from the KSCTower web app:
+
+- **Flightwall** renders `TowerRadarScope.tsx` with sample flight data.
+- **Kerbin tower map** renders `KerbinTowerMap.tsx` with sample traffic, framed at a planet-wide scale.
+- **Kerbol system schematic** renders `SystemSchematic.tsx` with sample orbital markers.
+
+The committed previews in `public/product-preview/` are built from those components in `KSCTowerNetwork-dev/web/src/components/`. The map uses the bundled basemap in `public/product-preview/maps/`; the system view uses `public/system-catalogs/kerbin-stock.json` and the small stock-body marker textures in `public/globes/`. Traffic and orbit markers are fixtures; no live KSP session or backend is connected. Refresh the bundles when the product UI changes.
 
 `ShotFrame.astro` renders only a real image found at
 `public/shots/<id>.{webp,png,jpg,jpeg}`. If no capture exists, it renders
