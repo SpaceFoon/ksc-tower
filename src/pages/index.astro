@@ -1,7 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import ScopeVisual from '../components/ScopeVisual.astro';
-import ShotFrame from '../components/ShotFrame.astro';
+import ProductPreview from '../components/ProductPreview.astro';
 import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 ---
 
@@ -36,11 +36,9 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 	<section class="section">
 		<div class="shell">
 			<p class="section__eyebrow">The loop</p>
-			<h2 class="section__title">Four roles. One tower network.</h2>
+			<h2 class="section__title">Four seats. One tower network.</h2>
 			<p class="section__lede">
-				Pilots, controllers, and spectators share a session through the tower desk
-				and radio. Pilots keep their own saves; an operator hosts the services
-				that connect them.
+				KSC Tower Network connects a KSP client, a browser tower desk, and a hosted backend. There is no shared physics and no shared save — just coordinated ops over server radio channels.
 			</p>
 			<div class="flow">
 				<div class="flow__item">
@@ -118,25 +116,7 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 				</li>
 			</ul>
 
-			<div class="shot-block">
-				<div class="shot-grid shot-grid--3">
-					<ShotFrame
-						id="radio-hud"
-						caption="In-game radio — tune TWR, GND, EMRG, or ATIS."
-						alt="KSC Tower Network in-game radio HUD"
-					/>
-					<ShotFrame
-						id="tower-desk"
-						caption="Browser tower desk — map, strips, and voice."
-						alt="KSC Tower Network controller desk"
-					/>
-					<ShotFrame
-						id="ghost-traffic"
-						caption="Ghost fleet — other pilots in your world, render-only."
-						alt="Ghost traffic of other pilots in Kerbal Space Program"
-					/>
-				</div>
-			</div>
+			<ProductPreview />
 		</div>
 	</section>
 
@@ -155,3 +135,5 @@ import { BRAND, PRODUCT, SITE_DESCRIPTION } from '../consts';
 		</div>
 	</section>
 </PageLayout>
+
+

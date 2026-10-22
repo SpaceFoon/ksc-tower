@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import ShotFrame from '../components/ShotFrame.astro';
 import { PRODUCT } from '../consts';
 ---
 
@@ -51,21 +50,6 @@ import { PRODUCT } from '../consts';
 				</p>
 			</div>
 
-			<div class="shot-block">
-				<div class="shot-grid">
-					<ShotFrame
-						id="lobby-channels"
-						caption="Lobby — server radio channels and the controller queue."
-						alt="KSC Tower Network lobby with radio channels"
-					/>
-					<ShotFrame
-						id="radio-hud"
-						caption="In-game COM — claim a channel by tuning the frequency."
-						alt="In-game COM radio tuned to tower"
-					/>
-				</div>
-			</div>
-
 			<div class="prose">
 				<h2>Pilot path</h2>
 				<ol>
@@ -101,21 +85,6 @@ import { PRODUCT } from '../consts';
 				</ol>
 			</div>
 
-			<div class="shot-block">
-				<div class="shot-grid">
-					<ShotFrame
-						id="tower-desk"
-						caption="Tower desk — map, clearances, and live strips."
-						alt="Controller tower desk"
-					/>
-					<ShotFrame
-						id="tower-wall"
-						caption="Tower wall — hull-cam, countdown, radar, and more."
-						alt="Customizable tower monitor wall"
-					/>
-				</div>
-			</div>
-
 			<div class="prose">
 				<h2>Spectator path</h2>
 				<ol>
@@ -127,21 +96,6 @@ import { PRODUCT } from '../consts';
 						the pilot does not hear it; the assigned controller bridges both sides.
 					</li>
 				</ol>
-			</div>
-
-			<div class="shot-block">
-				<div class="shot-grid">
-					<ShotFrame
-						id="spectator-booth"
-						caption="Booth — spectator commentary the pilot never hears."
-						alt="Spectator booth side channel"
-					/>
-					<ShotFrame
-						id="dragon-radar"
-						caption="Dragon Radar — room-scoped hunt across the body."
-						alt="Dragon Radar mini-game map"
-					/>
-				</div>
 			</div>
 
 			<div class="prose">
@@ -213,3 +167,4 @@ import { PRODUCT } from '../consts';
 		</div>
 	</section>
 </PageLayout>
+
