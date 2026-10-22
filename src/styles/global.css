@@ -151,6 +151,20 @@ a:hover {
 	border-bottom-color: var(--accent);
 }
 
+.nav a.nav__release {
+	padding: 0.4rem 0.75rem;
+	color: #fff;
+	background: var(--accent);
+	border: 1px solid var(--accent);
+	border-radius: var(--radius);
+}
+
+.nav a.nav__release:hover {
+	color: #fff;
+	background: var(--accent-deep);
+	border-color: var(--accent-deep);
+}
+
 .btn {
 	display: inline-flex;
 	align-items: center;
@@ -257,57 +271,6 @@ a:hover {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.75rem;
-}
-
-.release-status {
-	display: grid;
-	grid-template-columns: 0.55rem minmax(0, 1fr) auto;
-	align-items: center;
-	gap: 0.65rem 0.85rem;
-	max-width: 35rem;
-	margin-top: 1.2rem;
-	padding: 0.8rem 0.95rem;
-	border: 1px solid rgba(20, 32, 43, 0.17);
-	border-left: 3px solid var(--accent);
-	background: rgba(232, 238, 242, 0.84);
-	box-shadow: 0 16px 34px rgba(20, 32, 43, 0.08);
-}
-
-.release-status__signal {
-	width: 0.55rem;
-	height: 0.55rem;
-	border-radius: 50%;
-	background: var(--accent);
-	box-shadow: 0 0 0 4px rgba(232, 106, 23, 0.14);
-}
-
-.release-status__copy {
-	display: grid;
-	gap: 0.08rem;
-}
-
-.release-status__label {
-	font-family: var(--font-display);
-	font-size: 0.68rem;
-	font-weight: 700;
-	letter-spacing: 0.13em;
-	text-transform: uppercase;
-	color: var(--accent-deep);
-}
-
-.release-status__message {
-	margin: 0;
-	font-size: 0.92rem;
-	line-height: 1.35;
-	color: var(--ink-soft);
-}
-
-.release-status__link {
-	font-family: var(--font-display);
-	font-size: 0.78rem;
-	font-weight: 700;
-	letter-spacing: 0.04em;
-	white-space: nowrap;
 }
 
 .hero__copy .cta-row {
@@ -805,13 +768,6 @@ a:hover {
 		margin-bottom: 1rem;
 	}
 
-	.release-status {
-		grid-template-columns: 0.55rem minmax(0, 1fr);
-	}
-
-	.release-status__link {
-		grid-column: 2;
-	}
 }
 
 @media (prefers-reduced-motion: reduce) {
