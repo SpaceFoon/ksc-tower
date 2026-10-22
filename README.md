@@ -53,5 +53,6 @@ Custom domains `ksctower.com` and `www.ksctower.com` are declared in `wrangler.j
 
 ## Related repos
 
-- Mod / game stack: https://github.com/SpaceFoon/ksctower
-- This site: https://github.com/SpaceFoon/ksc-tower
+- Active app and mod source (private): https://github.com/SpaceFoon/KSCTowerNetwork
+- Archived legacy app repository: https://github.com/SpaceFoon/ksctower
+- This website: https://github.com/SpaceFoon/ksc-tower

@@ -1,6 +1,6 @@
 ---
 import HeaderLink from './HeaderLink.astro';
-import { BRAND } from '../consts';
+import { BRAND, GITHUB_RELEASES } from '../consts';
 ---
 
 <header class="site-header">
@@ -21,6 +21,7 @@ import { BRAND } from '../consts';
 		<nav class="nav" aria-label="Primary">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/how-it-works">How it works</HeaderLink>
+			<HeaderLink class="nav__release" href={GITHUB_RELEASES} target="_blank" rel="noopener noreferrer">Releases</HeaderLink>
 			<HeaderLink href="/get-started">Get started</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
 		</nav>
