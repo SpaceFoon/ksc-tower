@@ -6,5 +6,6 @@ export const BRAND = 'KSC Tower';
 export const PRODUCT = 'KSC Tower Network';
 export const ORG = 'spacefoon';
 export const GITHUB_SITE = 'https://github.com/SpaceFoon/ksc-tower';
+export const GITHUB_RELEASES = `${GITHUB_SITE}/releases`;
 export const FUNI_URL = 'https://github.com/SpaceFoon';
 export const KSP_VERSION = '1.12.x';
